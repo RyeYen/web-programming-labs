@@ -1,0 +1,13 @@
+* { box-sizing: border-box; }
+body { margin: 0; font-family: Arial, "Microsoft YaHei", sans-serif; color: #222; background: #f5f6f8; }
+main { width: min(90%, 640px); margin: 50px auto; padding: 28px; background: #fff; }
+h1 { margin-top: 0; }
+.input-row { display: flex; gap: 10px; margin-top: 8px; }
+input { flex: 1; min-width: 0; padding: 10px; font-size: 16px; }
+button { cursor: pointer; padding: 8px 16px; font: inherit; }
+ul { padding: 0; list-style: none; }
+li { display: flex; align-items: center; justify-content: space-between; gap: 12px; border-bottom: 1px solid #ddd; padding: 12px 0; cursor: pointer; overflow-wrap: anywhere; }
+li.done > span { text-decoration: line-through; color: #777; }
+li button { flex-shrink: 0; }
+.filters { display: flex; gap: 8px; margin-top: 20px; }
+.filters .selected { background: #263547; color: #fff; border-color: #263547; }
