@@ -4,10 +4,18 @@ const list = document.querySelector('#todo-list');
 const input = document.querySelector('#todo-input');
 const form = document.querySelector('#todo-form');
 const summary = document.querySelector('#summary');
-let todos = [];
+const KEY = 'todos';
+let todos = load();
 
-// The next feature commit supplies localStorage persistence.
-function save() {}
+function save() {
+  localStorage.setItem(KEY, JSON.stringify(todos));
+}
+
+function load() {
+  const raw = localStorage.getItem(KEY);
+  if (raw === null) return [];
+  return JSON.parse(raw);
+}
 
 function addTodo(text) {
   text = text.trim();
