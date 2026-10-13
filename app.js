@@ -13,9 +13,20 @@ function save() {
 }
 
 function load() {
-  const raw = localStorage.getItem(KEY);
-  if (raw === null) return [];
-  return JSON.parse(raw);
+  try {
+    const raw = localStorage.getItem(KEY);
+    if (raw === null) return [];
+    const data = JSON.parse(raw);
+    if (!Array.isArray(data)) return [];
+    const valid = data.every(t => t &&
+      typeof t.id === 'number' && Number.isFinite(t.id) &&
+      typeof t.text === 'string' &&
+      typeof t.completed === 'boolean');
+    if (!valid || new Set(data.map(t => t.id)).size !== data.length) return [];
+    return data;
+  } catch {
+    return [];
+  }
 }
 
 function addTodo(text) {
@@ -28,6 +39,13 @@ function addTodo(text) {
 
 function removeTodo(id) {
   todos = todos.filter(t => t.id !== id);
+  save();
+  render();
+}
+
+// AI-assisted implementation; this is not an independent no-AI exercise.
+function clearCompleted() {
+  todos = todos.filter(t => !t.completed);
   save();
   render();
 }
