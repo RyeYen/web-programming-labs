@@ -9,3 +9,5 @@ ul { padding: 0; list-style: none; }
 li { display: flex; align-items: center; justify-content: space-between; gap: 12px; border-bottom: 1px solid #ddd; padding: 12px 0; cursor: pointer; overflow-wrap: anywhere; }
 li.done > span { text-decoration: line-through; color: #777; }
 li button { flex-shrink: 0; }
+.filters { display: flex; gap: 8px; margin-top: 20px; }
+.filters .selected { background: #263547; color: #fff; border-color: #263547; }

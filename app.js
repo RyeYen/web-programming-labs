@@ -6,6 +6,7 @@ const form = document.querySelector('#todo-form');
 const summary = document.querySelector('#summary');
 const KEY = 'todos';
 let todos = load();
+let filter = 'all';
 
 function save() {
   localStorage.setItem(KEY, JSON.stringify(todos));
@@ -38,9 +39,18 @@ function toggleTodo(id) {
   render();
 }
 
+function setFilter(f) {
+  if (!['all', 'done', 'active'].includes(f)) return;
+  filter = f;
+  render();
+}
+
 function render() {
   list.innerHTML = '';
-  todos.forEach(t => {
+  const shown = todos.filter(t =>
+    filter === 'all' ? true :
+    filter === 'done' ? t.completed : !t.completed);
+  shown.forEach(t => {
     const li = document.createElement('li');
     li.dataset.id = t.id;
     const label = document.createElement('span');
@@ -61,6 +71,11 @@ function render() {
   });
   const done = todos.reduce((n, t) => n + (t.completed ? 1 : 0), 0);
   summary.textContent = `共 ${todos.length} 项，已完成 ${done} 项，未完成 ${todos.length - done} 项`;
+  document.querySelectorAll('[data-filter]').forEach(button => {
+    const selected = button.dataset.filter === filter;
+    button.classList.toggle('selected', selected);
+    button.setAttribute('aria-pressed', String(selected));
+  });
 }
 
 form.addEventListener('submit', e => {
@@ -70,6 +85,10 @@ form.addEventListener('submit', e => {
   addTodo(text);
   input.value = '';
   input.focus();
+});
+
+document.querySelectorAll('[data-filter]').forEach(button => {
+  button.addEventListener('click', () => setFilter(button.dataset.filter));
 });
 
 render();
