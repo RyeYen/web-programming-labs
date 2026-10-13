@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<meta charset="UTF-8">
+<title>W7 数据流验证</title>
+<h1>W7 数据流验证</h1>
+<p>本页仅用于验证，会覆盖本测试来源的 todos 数据。</p>
+<form id="todo-form"><input id="todo-input"><button type="submit">添加</button></form>
+<button data-filter="all">全部</button><button data-filter="done">已完成</button><button data-filter="active">未完成</button>
+<p id="summary"></p><ul id="todo-list"></ul>
+<button id="run-tests">运行数据流验证</button><pre id="results"></pre>
+<script src="app.js"></script>
+<script>
+function runTests() {
+  const results = [];
+  function check(name, test) {
+    try { test(); results.push('通过：' + name); }
+    catch (e) { results.push('失败：' + name + ' / ' + e.message); }
+  }
+  function expect(value, wanted) {
+    if (JSON.stringify(value) !== JSON.stringify(wanted)) throw new Error(JSON.stringify(value));
+  }
+  check('添加生成新数组且保留原数组', () => {
+    todos=[]; const before=Object.freeze(todos);addTodo(' A ');
+    expect([todos!==before,before.length,todos[0].text,todos[0].completed],[true,0,'A',false]);
+  });
+  check('空输入不修改数组', () => {
+    const before=todos;addTodo('   ');expect(todos===before,true);
+  });
+  check('map 展开保留旧对象与其他任务', () => {
+    todos=[{id:1,text:'A',completed:false},{id:2,text:'B',completed:false}];
+    todos.forEach(Object.freeze);const before=Object.freeze(todos);toggleTodo(1);
+    expect([todos!==before,todos[0]!==before[0],before[0].completed,todos[0].completed,todos[1]===before[1]],[true,true,false,true,true]);
+  });
+  check('filter 删除不改旧数组', () => {
+    const before=Object.freeze(todos);removeTodo(1);expect([todos!==before,before.length,todos.length,todos[0].id],[true,2,1,2]);
+  });
+  check('删除按钮阻止冒泡，仅保存一次', () => {
+    todos=[{id:1,text:'A',completed:true},{id:2,text:'B',completed:false}];render();
+    const original=save;let writes=0;save=()=>{writes++;original();};
+    try { list.querySelector('button').click();expect([writes,todos.length,todos[0].completed],[1,1,false]); }
+    finally { save=original; }
+  });
+  check('视图筛选不改任务或 localStorage', () => {
+    todos=[{id:1,text:'A',completed:true},{id:2,text:'B',completed:false}];save();
+    const before=todos,stored=localStorage.getItem(KEY);setFilter('done');
+    expect([list.children.length,todos===before,localStorage.getItem(KEY)===stored],[1,true,true]);
+    setFilter('active');expect(list.children.length,1);setFilter('all');expect(list.children.length,2);
+  });
+  check('保存与加载可恢复任务及完成状态', () => {
+    expect(load(),todos);
+  });
+  check('clearCompleted 保留未完成项并保存重渲染', () => {
+    todos=[{id:1,text:'A',completed:true},{id:2,text:'B',completed:false},{id:3,text:'C',completed:true}];
+    todos.forEach(Object.freeze);const before=Object.freeze(todos);clearCompleted();
+    expect([todos!==before,before.length,todos.length,todos[0].text,list.children.length],[true,3,1,'B',1]);expect(load(),todos);
+  });
+  check('clearCompleted 无完成项时保持任务', () => {
+    clearCompleted();expect(todos.length,1);
+  });
+  check('clearCompleted 全完成和空数组均正常', () => {
+    toggleTodo(2);clearCompleted();expect(todos.length,0);clearCompleted();expect([todos.length,list.children.length],[0,0]);
+  });
+  check('损坏 JSON 非数组 错误字段 重复 ID 安全回退', () => {
+    for(const raw of ['{broken','{}','[{"id":1,"text":"A","completed":"false"}]','[{"id":1,"text":"A","completed":false},{"id":1,"text":"B","completed":true}]']) {
+      localStorage.setItem(KEY,raw);expect(load(),[]);
+    }
+  });
+  check('空数组 reduce 与纯文本渲染', () => {
+    todos=[];save();render();expect(summary.textContent,'共 0 项，已完成 0 项，未完成 0 项');
+    addTodo('<b>仅文字</b>');expect([list.querySelectorAll('b').length,list.querySelector('span').textContent],[0,'<b>仅文字</b>']);
+  });
+  document.querySelector('#results').textContent=results.join('\n')+'\n共 '+results.length+' 项验证';
+}
+document.querySelector('#run-tests').addEventListener('click',runTests);
+</script>
+</html>
