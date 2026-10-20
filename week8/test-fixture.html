@@ -1,0 +1,148 @@
+<!doctype html>
+<html lang="zh-CN">
+<meta charset="utf-8">
+<title>W8 浏览器验证</title>
+<style>body{font:16px/1.6 system-ui;margin:32px}iframe{width:760px;height:420px;border:1px solid #ccc}pre{white-space:pre-wrap}.pass{color:#176b38}.fail{color:#a11}</style>
+<h1>W8 事件委托：浏览器验证</h1>
+<p>此测试由 AI 辅助编写。点击运行后会暂时替换本来源的 todos 数据，结束时恢复。</p>
+<button id="run">运行验证</button>
+<pre id="results">等待运行</pre>
+<iframe id="app" title="测试中的 Todo 页面"></iframe>
+<script>
+'use strict';
+const frame = document.querySelector('#app');
+const output = document.querySelector('#results');
+const records = [];
+let logs = [], errors = [];
+const initial = [{id:101,text:'任务A',completed:false},{id:102,text:'任务B',completed:true}];
+function assert(condition, message) { if (!condition) throw new Error(message); }
+function equal(actual, expected) { assert(JSON.stringify(actual) === JSON.stringify(expected), JSON.stringify({actual,expected})); }
+function state() { return JSON.parse(frame.contentWindow.localStorage.getItem('todos') || '[]'); }
+async function openPage(filename, data) {
+  localStorage.setItem('todos', JSON.stringify(data));
+  logs = []; errors = [];
+  await new Promise((resolve, reject) => {
+    frame.onload = () => {
+      const w = frame.contentWindow;
+      w.console.log = (...args) => logs.push(args.join(' '));
+      w.addEventListener('error', event => errors.push(event.message));
+      resolve();
+    };
+    frame.onerror = reject;
+    frame.src = filename + '?test=' + Date.now() + Math.random();
+  });
+}
+function click(selector) {
+  const target = frame.contentDocument.querySelector(selector);
+  assert(target, '缺少元素：' + selector);
+  target.click();
+}
+async function check(name, test) {
+  await test();
+  equal(errors, []);
+  records.push({scenario:name, passed:true, logs:[...logs]});
+  output.textContent = records.map(r => 'PASS ' + r.scenario + ' | ' + JSON.stringify(r.logs)).join('\n');
+}
+async function run() {
+  document.querySelector('#run').disabled = true;
+  records.length = 0;
+  document.querySelector('#test-results')?.remove();
+  delete document.body.dataset.result;
+  const previous = localStorage.getItem('todos');
+  try {
+    await check('缺陷复现：一次删除产生双重日志', async () => {
+      await openPage('debug-bug.html', initial);
+      click('[data-action="delete"]');
+      equal(logs, ['[deleteTodo] id=101','[toggleTodo] id=101']);
+      equal(state(), [initial[1]]);
+    });
+    await check('点击任务文字，只切换', async () => {
+      await openPage('index.html', initial);
+      click('.todo-label');
+      equal(logs, ['[toggleTodo] id=101']);
+      equal(state(), [{...initial[0],completed:true},initial[1]]);
+    });
+    await check('点击删除按钮，只删除', async () => {
+      await openPage('index.html', initial);
+      click('[data-action="delete"]');
+      equal(logs, ['[deleteTodo] id=101']);
+      equal(state(), [initial[1]]);
+    });
+    await check('点击删除按钮内层图标，正确删除', async () => {
+      await openPage('index.html', initial);
+      click('.delete-icon');
+      equal(logs, ['[deleteTodo] id=101']);
+      equal(state(), [initial[1]]);
+    });
+    await check('点击列表空白处，不报错且数据不变', async () => {
+      await openPage('index.html', initial);
+      click('#todo-list');
+      equal(logs, []);
+      equal(state(), initial);
+    });
+    await check('动态新增任务后，正常切换和删除', async () => {
+      await openPage('index.html', []);
+      frame.contentDocument.querySelector('#todo-input').value = '动态任务';
+      frame.contentDocument.querySelector('#todo-form').requestSubmit();
+      assert(state().length === 1, '任务未添加');
+      const id = state()[0].id;
+      click('.todo-label');
+      assert(state()[0].completed, '新增任务未切换');
+      click('.delete-icon');
+      equal(state(), []);
+      equal(logs, ['[toggleTodo] id=' + id, '[deleteTodo] id=' + id]);
+    });
+    await check('重新载入页面，localStorage 恢复任务', async () => {
+      await openPage('index.html', initial);
+      click('.todo-label');
+      const saved = state();
+      await openPage('index.html', saved);
+      equal(state(), saved);
+      assert(frame.contentDocument.querySelectorAll('li.done').length === 2, '完成状态未恢复');
+    });
+    await check('筛选只改变显示，不修改任务状态', async () => {
+      await openPage('index.html', initial);
+      click('[data-filter="active"]');
+      assert(frame.contentDocument.querySelectorAll('#todo-list li').length === 1, '筛选结果错误');
+      equal(state(), initial);
+    });
+    await check('AI 编辑演示：确认、取消、空输入与后续操作', async () => {
+      await openPage('edit-demo.html', [initial[0]]);
+      frame.contentWindow.prompt = () => '  更新后的任务  ';
+      click('[data-action="edit"]');
+      equal(state(), [{...initial[0],text:'更新后的任务'}]);
+      equal(logs, []);
+      frame.contentWindow.prompt = () => null;
+      click('[data-action="edit"]');
+      frame.contentWindow.prompt = () => '   ';
+      click('[data-action="edit"]');
+      equal(state(), [{...initial[0],text:'更新后的任务'}]);
+      click('.todo-label');
+      assert(state()[0].completed, '编辑后不能切换');
+      click('[data-action="delete"]');
+      equal(state(), []);
+      equal(logs, ['[toggleTodo] id=101','[deleteTodo] id=101']);
+    });
+    output.className = 'pass';
+    document.body.dataset.result = 'PASS';
+  } catch (error) {
+    records.push({passed:false,error:String(error)});
+    output.textContent += '\nFAIL ' + error;
+    output.className = 'fail';
+    document.body.dataset.result = 'FAIL';
+  } finally {
+    frame.src = 'about:blank';
+    if (previous === null) localStorage.removeItem('todos');
+    else localStorage.setItem('todos', previous);
+    const result = document.createElement('script');
+    result.id = 'test-results';
+    result.type = 'application/json';
+    result.textContent = JSON.stringify({userAgent:navigator.userAgent, records},null,2);
+    document.body.appendChild(result);
+    document.querySelector('#run').disabled = false;
+  }
+}
+document.querySelector('#run').addEventListener('click', run);
+if (new URLSearchParams(location.search).has('autorun')) run();
+</script>
+</html>

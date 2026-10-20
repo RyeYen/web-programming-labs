@@ -1,0 +1,70 @@
+{
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/155.0.0.0 Safari/537.36 Edg/155.0.0.0",
+  "records": [
+    {
+      "scenario": "缺陷复现：一次删除产生双重日志",
+      "passed": true,
+      "logs": [
+        "[deleteTodo] id=101",
+        "[toggleTodo] id=101"
+      ]
+    },
+    {
+      "scenario": "点击任务文字，只切换",
+      "passed": true,
+      "logs": [
+        "[toggleTodo] id=101"
+      ]
+    },
+    {
+      "scenario": "点击删除按钮，只删除",
+      "passed": true,
+      "logs": [
+        "[deleteTodo] id=101"
+      ]
+    },
+    {
+      "scenario": "点击删除按钮内层图标，正确删除",
+      "passed": true,
+      "logs": [
+        "[deleteTodo] id=101"
+      ]
+    },
+    {
+      "scenario": "点击列表空白处，不报错且数据不变",
+      "passed": true,
+      "logs": []
+    },
+    {
+      "scenario": "动态新增任务后，正常切换和删除",
+      "passed": true,
+      "logs": [
+        "[toggleTodo] id=1792484367249",
+        "[deleteTodo] id=1792484367249"
+      ]
+    },
+    {
+      "scenario": "重新载入页面，localStorage 恢复任务",
+      "passed": true,
+      "logs": []
+    },
+    {
+      "scenario": "筛选只改变显示，不修改任务状态",
+      "passed": true,
+      "logs": []
+    },
+    {
+      "scenario": "AI 编辑演示：确认、取消、空输入与后续操作",
+      "passed": true,
+      "logs": [
+        "[toggleTodo] id=101",
+        "[deleteTodo] id=101"
+      ]
+    }
+  ],
+  "execution": {
+    "date": "2026-10-20",
+    "mode": "Edge headless, localhost HTTP, actual DOM and localStorage",
+    "source": "test-fixture.html"
+  }
+}
