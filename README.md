@@ -1,30 +1,59 @@
-# Web 编程第 7 周实验
+# Web Programming Labs · Web 编程课程实验
 
-V2.0 Todo 数据驱动重构、筛选与 localStorage 持久化。
+按周整理的 Web 编程实验仓库，记录 Todo 应用从数据驱动到事件委托的实现、调试与验证。
 
-此仓库记录本次 AI 协作产生的实现，不声称恢复了此前聊天中的源代码。
+## 实验目录
 
-## 运行
+| 实验 | 主要内容 | 代码与说明 |
+| --- | --- | --- |
+| Week 7 | Todo V2.0 数据驱动重构、任务筛选、localStorage 持久化 | [week7](./week7/) · [实验说明](./week7/README.md) |
+| Week 8 | 事件委托重构、删除分支缺陷诊断、操作分流与编辑演示 | [week8](./week8/) · [实验说明](./week8/README.md) |
 
-在浏览器中打开 `index.html`。使用本地 HTTP 服务可获得稳定的 localStorage 来源。
+## 目录结构
 
-## 数据流
+```text
+web-programming-labs/
+├── README.md
+├── week7/
+│   ├── README.md
+│   ├── index.html
+│   ├── app.js
+│   ├── styles.css
+│   └── test-fixture.html
+└── week8/
+    ├── README.md
+    ├── index.html
+    ├── app.js
+    ├── styles.css
+    ├── debug-bug.html
+    ├── app.bug.js
+    ├── edit-demo.html
+    ├── app.edit-demo.js
+    ├── test-fixture.html
+    └── browser_results.json
+```
 
-`todos` 是唯一的任务状态。添加、删除、切换均生成新数组，再调用 `save()` 和 `render()`。
+## 本地运行
 
-功能分支为 `feature/v2-data-driven`，最终通过合并回到 `main`。
+项目使用原生 HTML、CSS 和 JavaScript，无需构建。安装 Python 后，在仓库根目录执行：
+
+```bash
+python -m http.server 8000
+```
+
+- W7 页面：<http://localhost:8000/week7/>
+- W8 修复版：<http://localhost:8000/week8/>
+- W8 缺陷复现：<http://localhost:8000/week8/debug-bug.html>
+- W8 编辑演示：<http://localhost:8000/week8/edit-demo.html>
+
+使用同一域名和端口打开时，W7 与 W8 共用 localStorage 的 `todos` 数据；刷新页面可以恢复已保存的任务。
 
 ## 验证
 
-`test-fixture.html` 提供 12 项浏览器数据流检查，涵盖旧数组与旧对象保持不变、删除按钮阻止冒泡、筛选不改任务数据、存取恢复、批量清理边界情况和损坏存储回退。运行测试会覆盖该本地测试来源的任务数据。
-
-本次还通过页面操作和实际刷新核对了添加、空输入、切换状态、删除和筛选刷新恢复为 `all`。
+- [W7 数据流验证](./week7/test-fixture.html)：在本地打开 `/week7/test-fixture.html`，点击“运行数据流验证”，执行 12 项检查。此测试会覆盖当前来源的任务数据。
+- [W8 浏览器验证](./week8/test-fixture.html)：在本地打开 `/week8/test-fixture.html`，点击“运行验证”，执行 9 项检查；测试结束时恢复原有任务数据。
+- [W8 已记录的验证结果](./week8/browser_results.json)：包含实际捕获的控制台日志与断言结果。
 
 ## AI 协作说明
 
-本次实现与测试由 AI 辅助完成。`clearCompleted()` 由 AI 编写并验证，不计作禁用 AI 的独立小改练习。独立练习与 freeCodeCamp 课程进度需要本人另行完成和记录。
-
-## 课堂简化条件
-
-任务 ID 按课堂要求使用 `Date.now()`，快速在同一毫秒添加任务可能产生重复 ID，项目扩展时可改为更可靠的生成方式。
-`save()` 按课堂骨架实现，未覆盖存储配额耗尽或写入权限受限的情况。
+仓库中的实现、调试与测试使用了 AI 辅助。W7 的 `clearCompleted()` 和 W8 的编辑演示均不能作为“未使用 AI、独立完成”的证明。具体说明及课堂简化条件见各周 README。
