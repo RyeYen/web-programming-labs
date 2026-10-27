@@ -58,4 +58,3 @@ python -m http.server 8000
 ## AI 协作说明
 
 仓库中的实现、调试与测试使用了 AI 辅助。W7 的 `clearCompleted()` 和 W8 的编辑演示均不能作为“未使用 AI、独立完成”的证明。具体说明及课堂简化条件见各周 README。
-
