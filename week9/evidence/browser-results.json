@@ -1,0 +1,16 @@
+{
+  "date": "2026-10-27",
+  "timezone": "Asia/Shanghai",
+  "url": "http://127.0.0.1:5173/",
+  "tool": "Codex Browser Use in-app browser",
+  "checks": [
+    { "name": "页面与初始空列表", "result": "passed", "observed": "共 0 项，已完成 0 项，未完成 0 项" },
+    { "name": "连续添加两条任务", "result": "passed", "observed": "共 2 项，已完成 0 项，未完成 2 项" },
+    { "name": "切换与已完成筛选", "result": "passed", "observed": "共 2 项，已完成 1 项，未完成 1 项；筛选列表只显示学习 TypeScript" },
+    { "name": "刷新恢复", "result": "passed", "observed": "恢复两条记录且第一条仍完成；截图 browser-proof.jpg" },
+    { "name": "点击嵌套删除图标", "result": "passed", "observed": "仅剩编写 Vitest 测试，completed 未被误切换" },
+    { "name": "纯空格拦截", "result": "passed", "observed": "仍只有一条未完成任务" },
+    { "name": "清理本次创建的任务", "result": "passed", "observed": "恢复空列表，无本次测试任务残留" }
+  ],
+  "scope": "真实浏览器人工驱动式冒烟验证；不计入 31 项 Vitest 测试，也不代表跨浏览器兼容性验证。"
+}

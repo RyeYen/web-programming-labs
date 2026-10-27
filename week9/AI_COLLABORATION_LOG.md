@@ -35,6 +35,8 @@ src/ 全部 TS 文件、tests/ 全部参考与扩展测试、配置、Prompt A/B
 
 原始输出保存在 evidence/typecheck.txt、test.txt、build.txt。另有 4 项 jsdom DOM 集成测试；它们不等于真实浏览器端到端测试。未执行的验证不写成已通过。
 
+随后完成真实内置浏览器冒烟验证：初始空列表、添加两项、切换与筛选、刷新恢复、子图标删除、空白拒绝及清理本次数据共 7 项观察通过，截图与记录已保存到 evidence/。它们单独记录，不冒充额外 Vitest 用例或跨浏览器测试。
+
 ## 有效性审查回答草稿
 
 A 正常测试只有 expect(todos).toHaveLength(1)，即使新增错误文本或 completed=true 也可能通过；应补全文本、初始状态及安全 ID。A 的空白测试从空数组开始，不能发现清空旧数据的副作用；应先放入任务并比较完整数组。not.toThrow 必须配合业务结果。完整原位置、解释、补丁见 AI_REVIEW.md。
@@ -54,3 +56,5 @@ A 缺失维度 1 null、维度 6 重复、维度 2 拓展长文本。需拒绝�
 ## GitHub 权限核对
 
 连接器创建分支与树返回 403 Resource not accessible by integration，未把失败写成上传成功。沙箱内 gh 登录检测曾报无效；允许网络访问后，实际核对到现有 RyeYen 账户有效且具有 repo 范围，改用 GitHub CLI 执行授权提交。最终推送与 PR 的真实状态以本次交付反馈为准。
+
+已通过正常 git push 推送 feat/week9-typescript-tests，并创建草稿 PR：https://github.com/RyeYen/web-programming-labs/pull/1。未强推，未合并 main。本人独立重写与审查仍保留为本人待完成事项。
