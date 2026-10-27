@@ -1,0 +1,22 @@
+// 学生独立填写模板：这是待完成结构，不参与自动测试。
+// 先关闭 AI 参考文件，再根据业务契约自行编写。
+import { test, expect } from 'vitest';
+import { addTodo, toggleTodo } from '../src/todo';
+import type { Todo } from '../src/todo';
+
+test('正常添加', (): void => {
+  const todos: Todo[] = [];
+  // 待填写：调用 addTodo；断言长度、文本和初始状态。
+});
+test('纯空格', (): void => {
+  // 待填写：独立初始化；输入纯空格；断言数组未改变。
+});
+test('空字符串', (): void => {
+  // 待填写：独立初始化；输入空字符串；断言数组未改变。
+});
+test('正常切换', (): void => {
+  // 待填写：两条任务；翻转指定 ID；断言全部字段及另一项不变。
+});
+test('不存在的 ID', (): void => {
+  // 待填写：初始化；验证不抛异常且原数据完整保留。
+});

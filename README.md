@@ -8,6 +8,7 @@
 | --- | --- | --- |
 | Week 7 | Todo V2.0 数据驱动重构、任务筛选、localStorage 持久化 | [week7](./week7/) · [实验说明](./week7/README.md) |
 | Week 8 | 事件委托重构、删除分支缺陷诊断、操作分流与编辑演示 | [week8](./week8/) · [实验说明](./week8/README.md) |
+| Week 9 | TypeScript 严格类型重构、Vitest 单元测试与 AI 测试审查 | [week9](./week9/) · [实验说明](./week9/README.md) · [AI 审查](./week9/AI_REVIEW.md) |
 
 ## 目录结构
 
@@ -35,7 +36,7 @@ web-programming-labs/
 
 ## 本地运行
 
-项目使用原生 HTML、CSS 和 JavaScript，无需构建。安装 Python 后，在仓库根目录执行：
+Week 7/8 使用原生 HTML、CSS 和 JavaScript，无需构建。Week 9 使用独立的 TypeScript/Vite 项目，运行方法见 [Week 9 README](./week9/README.md)，请勿用静态服务器直接加载 TS 源文件。安装 Python 后，在仓库根目录执行：
 
 ```bash
 python -m http.server 8000
@@ -57,3 +58,4 @@ python -m http.server 8000
 ## AI 协作说明
 
 仓库中的实现、调试与测试使用了 AI 辅助。W7 的 `clearCompleted()` 和 W8 的编辑演示均不能作为“未使用 AI、独立完成”的证明。具体说明及课堂简化条件见各周 README。
+

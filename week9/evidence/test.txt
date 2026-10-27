@@ -1,0 +1,44 @@
+
+> web-programming-week9@1.0.0 test
+> vitest run --reporter=verbose
+
+
+ RUN  v5.0.5 C:/Users/甄文校/Desktop/新建文件夹/web-programming-labs/week9
+
+ ✓ tests/ai-prompt-a.test.ts > A 正常文本会增加一条任务 3ms
+ ✓ tests/ai-prompt-a.test.ts > A 空字符串不添加 0ms
+ ✓ tests/ai-prompt-a.test.ts > A 纯空格不添加 0ms
+ ✓ tests/todo.test.ts > 正常添加：长度增加且文本等于输入 3ms
+ ✓ tests/todo.test.ts > 纯空格不能添加，已有数据不变 1ms
+ ✓ tests/todo.test.ts > 空字符串不能添加 0ms
+ ✓ tests/todo.test.ts > 正常切换仅翻转指定任务，两次切换可恢复 1ms
+ ✓ tests/todo.test.ts > 不存在的 ID 不抛错且全部数据不变 1ms
+ ✓ tests/ai-generated.test.ts > B 合法文本 trim 后添加，并保留原任务 4ms
+ ✓ tests/ai-generated.test.ts > B null 不抛错且不改变原数组 1ms
+ ✓ tests/ai-generated.test.ts > B 各类空白不能添加 0ms
+ ✓ tests/ai-generated.test.ts > B 空字符串不能添加 0ms
+ ✓ tests/ai-generated.test.ts > B 同一毫秒连续添加重复文本，ID 仍唯一 2ms
+ ✓ tests/ai-generated.test.ts > B 一万字符合法文本完整保存 0ms
+ ✓ tests/ai-generated.test.ts > B 非字符串输入均不污染已有数据 0ms
+ ✓ tests/boundaries.test.ts > dataset 拦截缺失、空白、尾随字符、小数、不安全整数 2ms
+ ✓ tests/boundaries.test.ts > dataset 允许安全整数与数值 0 0ms
+ ✓ tests/boundaries.test.ts > 存储可恢复合法旧数据，包括安全负数 ID 1ms
+ ✓ tests/boundaries.test.ts > 无存储、非法 JSON 或非数组均降级为空 0ms
+ ✓ tests/boundaries.test.ts > 逐属性验证类型，部分损坏时原子拒绝整组数据 0ms
+ ✓ tests/boundaries.test.ts > 重复 ID 不进入内存，避免误删误切换 0ms
+ ✓ tests/boundaries.test.ts > 读写异常被捕获，保存失败以 false 报告 1ms
+ ✓ tests/boundaries.test.ts > load/save 往返且仅使用 week9.todos 0ms
+ ✓ tests/boundaries.test.ts > 删除指定项，找不到 ID 时数据不变 2ms
+ ✓ tests/boundaries.test.ts > 非法数值 ID 不能切换或删除 0ms
+ ✓ tests/boundaries.test.ts > 三种筛选只选择目标状态且不改变源数组 0ms
+ ✓ tests/boundaries.test.ts > 添加不会改写已有对象，HTML 文本保持原样 0ms
+ ✓ tests/app.test.ts > 委托支持子图标删除，删除后不会误切换其他项 54ms
+ ✓ tests/app.test.ts > 脏 dataset 和非 Element 事件目标均被拦截 14ms
+ ✓ tests/app.test.ts > 添加、筛选、重挂载恢复数据且文本不会作为 HTML 执行 22ms
+ ✓ tests/app.test.ts > 存储获取异常仍可操作，缺少 DOM 时安全退出 8ms
+
+ Test Files  5 passed (5)
+      Tests  31 passed (31)
+   Start at  16:37:07
+   Duration  3.75s (environment 71%, transform 13%, import 10%, tests 3%, worker 2%)
+
