@@ -9,6 +9,7 @@
 | Week 7 | Todo V2.0 数据驱动重构、任务筛选、localStorage 持久化 | [week7](./week7/) · [实验说明](./week7/README.md) |
 | Week 8 | 事件委托重构、删除分支缺陷诊断、操作分流与编辑演示 | [week8](./week8/) · [实验说明](./week8/README.md) |
 | Week 9 | TypeScript 严格类型重构、Vitest 单元测试与 AI 测试审查 | [week9](./week9/) · [实验说明](./week9/README.md) · [AI 审查](./week9/AI_REVIEW.md) |
+| Week 10 | 工程化收尾：build 接入 tsc、ESLint 三条规则、AI 改造审查 | [week10](./week10/) · [实验说明](./week10/README.md) · [AI 审查](./week10/AI_REVIEW.md) |
 
 ## 目录结构
 
@@ -32,11 +33,17 @@ web-programming-labs/
     ├── app.edit-demo.js
     ├── test-fixture.html
     └── browser_results.json
+├── week9/                # TypeScript + Vitest 工程，见 week9/README.md
+└── week10/               # 在 week9 基础上加 ESLint 与 tsc 构建闸门
+    ├── .eslintrc.cjs
+    ├── src/{todo,storage,app,main}.ts
+    ├── tests/
+    └── evidence/{typecheck,lint,test,build}.txt
 ```
 
 ## 本地运行
 
-Week 7/8 使用原生 HTML、CSS 和 JavaScript，无需构建。Week 9 使用独立的 TypeScript/Vite 项目，运行方法见 [Week 9 README](./week9/README.md)，请勿用静态服务器直接加载 TS 源文件。安装 Python 后，在仓库根目录执行：
+Week 7/8 使用原生 HTML、CSS 和 JavaScript，无需构建。Week 9/10 使用独立的 TypeScript/Vite 项目，运行方法见 [Week 9 README](./week9/README.md) 与 [Week 10 README](./week10/README.md)，请勿用静态服务器直接加载 TS 源文件。安装 Python 后，在仓库根目录执行：
 
 ```bash
 python -m http.server 8000

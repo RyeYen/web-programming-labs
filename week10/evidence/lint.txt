@@ -1,0 +1,13 @@
+
+> web-programming-week10@1.0.0 lint
+> eslint src/
+
+(0 problems -> ESLint prints nothing, exit code 0)
+
+--- exit code: 0 ---
+
+--- per-file counts: npx eslint src/ --format json ---
+app.ts         error 0   warning 0
+main.ts        error 0   warning 0
+storage.ts     error 0   warning 0
+todo.ts        error 0   warning 0
