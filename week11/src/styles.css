@@ -1,0 +1,133 @@
+:root {
+  color-scheme: light;
+  font-family: system-ui, -apple-system, "Segoe UI", "Microsoft YaHei", sans-serif;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  background: #f4f6fa;
+  color: #1d2433;
+}
+
+.app {
+  width: 520px;
+  margin-top: 48px;
+  padding: 24px 28px 20px;
+  background: #fff;
+  border-radius: 14px;
+  box-shadow: 0 10px 30px rgba(30, 45, 80, 0.12);
+}
+
+.head h1 {
+  margin: 0;
+  font-size: 22px;
+}
+
+.sub {
+  margin: 6px 0 18px;
+  font-size: 13px;
+  color: #7a8499;
+}
+
+.form {
+  display: flex;
+  gap: 10px;
+}
+
+.input {
+  flex: 1;
+  padding: 9px 12px;
+  font-size: 14px;
+  border: 1px solid #d6dbe6;
+  border-radius: 8px;
+  outline: none;
+}
+
+.input:focus {
+  border-color: #4c7cf3;
+  box-shadow: 0 0 0 3px rgba(76, 124, 243, 0.15);
+}
+
+.add {
+  padding: 9px 18px;
+  font-size: 14px;
+  color: #fff;
+  background: #4c7cf3;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.filters {
+  display: flex;
+  gap: 8px;
+  margin: 16px 0 8px;
+}
+
+.chip {
+  padding: 5px 12px;
+  font-size: 12px;
+  color: #5b6478;
+  background: #eef1f7;
+  border: none;
+  border-radius: 999px;
+  cursor: pointer;
+}
+
+.chip.on {
+  color: #fff;
+  background: #1d2433;
+}
+
+.list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 2px;
+  border-bottom: 1px solid #eef1f7;
+}
+
+.label {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+}
+
+.item.done .text {
+  color: #98a1b3;
+  text-decoration: line-through;
+}
+
+.del {
+  font-size: 12px;
+  color: #d64545;
+  background: transparent;
+  border: 1px solid #f0c9c9;
+  border-radius: 6px;
+  padding: 3px 10px;
+  cursor: pointer;
+}
+
+.empty {
+  margin: 18px 0;
+  font-size: 13px;
+  color: #98a1b3;
+  text-align: center;
+}
+
+.stats {
+  margin: 14px 0 0;
+  font-size: 12px;
+  color: #7a8499;
+}
