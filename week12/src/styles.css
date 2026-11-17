@@ -1,0 +1,192 @@
+/* 主题走 CSS 变量：Provider 只改 <html data-theme>，颜色全由变量接管。 */
+:root {
+  color-scheme: light;
+  --bg: #f4f6fa;
+  --panel: #ffffff;
+  --text: #1d2433;
+  --muted: #7a8499;
+  --line: #eef1f7;
+  --chip: #eef1f7;
+  --chip-on-bg: #1d2433;
+  --chip-on-text: #ffffff;
+  --input-border: #d6dbe6;
+  --accent: #4c7cf3;
+  --done-text: #98a1b3;
+  --shadow: 0 10px 30px rgba(30, 45, 80, 0.12);
+  font-family: system-ui, -apple-system, "Segoe UI", "Microsoft YaHei", sans-serif;
+}
+
+:root[data-theme='dark'] {
+  color-scheme: dark;
+  --bg: #0f131b;
+  --panel: #1a2030;
+  --text: #e8ecf5;
+  --muted: #9aa4b8;
+  --line: #262d3d;
+  --chip: #262d3d;
+  --chip-on-bg: #e8ecf5;
+  --chip-on-text: #12161f;
+  --input-border: #333c50;
+  --accent: #6f9bff;
+  --done-text: #6b7488;
+  --shadow: 0 10px 30px rgba(0, 0, 0, 0.45);
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  background: var(--bg);
+  color: var(--text);
+  transition: background 0.2s ease, color 0.2s ease;
+}
+
+.app {
+  width: 520px;
+  margin-top: 48px;
+  padding: 24px 28px 20px;
+  background: var(--panel);
+  border-radius: 14px;
+  box-shadow: var(--shadow);
+  transition: background 0.2s ease, box-shadow 0.2s ease;
+}
+
+.head-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.head h1 {
+  margin: 0;
+  font-size: 22px;
+}
+
+.sub {
+  margin: 6px 0 18px;
+  font-size: 13px;
+  color: var(--muted);
+}
+
+.toggle {
+  padding: 5px 12px;
+  font-size: 12px;
+  color: var(--text);
+  background: var(--chip);
+  border: none;
+  border-radius: 999px;
+  cursor: pointer;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+.form {
+  display: flex;
+  gap: 10px;
+}
+
+.input {
+  flex: 1;
+  padding: 9px 12px;
+  font-size: 14px;
+  color: var(--text);
+  background: var(--panel);
+  border: 1px solid var(--input-border);
+  border-radius: 8px;
+  outline: none;
+}
+
+.input:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(76, 124, 243, 0.15);
+}
+
+.add {
+  padding: 9px 18px;
+  font-size: 14px;
+  color: #fff;
+  background: var(--accent);
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.filters {
+  display: flex;
+  gap: 8px;
+  margin: 16px 0 8px;
+}
+
+.chip {
+  padding: 5px 12px;
+  font-size: 12px;
+  color: var(--muted);
+  background: var(--chip);
+  border: none;
+  border-radius: 999px;
+  cursor: pointer;
+}
+
+.chip.on {
+  color: var(--chip-on-text);
+  background: var(--chip-on-bg);
+}
+
+.list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 2px;
+  border-bottom: 1px solid var(--line);
+}
+
+.label {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+}
+
+.item.done .text {
+  color: var(--done-text);
+  text-decoration: line-through;
+}
+
+.del {
+  font-size: 12px;
+  color: #d64545;
+  background: transparent;
+  border: 1px solid #f0c9c9;
+  border-radius: 6px;
+  padding: 3px 10px;
+  cursor: pointer;
+}
+
+.empty {
+  margin: 18px 0;
+  font-size: 13px;
+  color: var(--done-text);
+  text-align: center;
+}
+
+.stats {
+  margin: 14px 0 0;
+  font-size: 12px;
+  color: var(--muted);
+}
